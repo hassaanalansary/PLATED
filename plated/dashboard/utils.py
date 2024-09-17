@@ -63,7 +63,7 @@ def plot(name, data, id):
     return plt_url
 
 
-def score_progress(user, focus, filter):
+def score_progress(user, focus: Literal["subject", "chapter"], filter):
     """ returns a list of the focus instances with a list of its scores """
     lessons = Lesson.objects.filter(grade=user.student.grade, semester=CURRENT_SEMESTER)
     query = {
