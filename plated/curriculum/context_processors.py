@@ -7,7 +7,7 @@ CURRENT_SEMESTER = Semester.objects.filter(
     ending_date__gte=timezone.now()
     ).first()
 
-
+# CHECK teemplate tags
 def current_semester(request):
     """ sets the current semester in the context """
     return {'semester': CURRENT_SEMESTER}
