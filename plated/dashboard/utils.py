@@ -66,16 +66,29 @@ def plot(name, data, id):
 def score_progress(user, focus: Literal["subject", "chapter"], filter):
     """ returns a list of the focus instances with a list of its scores """
     lessons = Lesson.objects.filter(grade=user.student.grade, semester=CURRENT_SEMESTER)
+    # first solution
+    if focus == "subject":
+        xxxxx
+    elif focus == "chapter":
+        twqe
+    elif focus == "subject":
+        dsadasd
+    elif focus == "subject":
+        agaggd
+    else:
+        raise NotImplemented("Illegal focus")
+        
     query = {
-        'lesson': lessons.filter(**filter),
-        'chapter': list(set([lesson.chapter for lesson in lessons.filter(**filter)])),
-        'unit': list(set([lesson.chapter.unit for lesson in lessons.filter(**filter)])),
-        'subject': list(set([lesson.chapter.unit.subject for lesson in lessons])),
+        'lesson': lambda: lessons.filter(**filter),
+        'chapter': lambda: list(set([lesson.chapter for lesson in lessons.filter(**filter)])),
+        'unit': lambda: list(set([lesson.chapter.unit for lesson in lessons.filter(**filter)])),
+        'subject': lambda: list(set([lesson.chapter.unit.subject for lesson in lessons])),
     }
-    focus_instances = query[focus]
+    from django.db import Prefetch
+    focus_instances = query[focus]().prefetch_related(Prefetch('exams', queryset= Exam.objects.filter(student=user.student, score__isnull=False), to_attr= 'new_exams')))
     focus_scores = []
     for  instance in focus_instances:
-        solved_exams = instance.exams.filter(student=user.student, score__isnull=False)
+        solved_exams = instance.new_exams
         scores = [exam.score_percentage for exam in solved_exams]
         focus_scores.append({
             'id': instance.id,
