@@ -20,12 +20,12 @@ class Grade(BaseModel):
 
 class Semester(BaseModel):
     """ semesters table """
-    title = models.CharField(
+    title = models.CharField( # models.TextChoices
         max_length=1,
         choices=[
-            ("0", "No term"),       # for grades with one term like third year of secondary school
-            ("1", "first term"),
-            ("2", "second term"),
+            ("no_term", "No Term"),       # for grades with one term like third year of secondary school
+            ("first_term", "First Term"),
+            ("2", "Second Term"),
             ])
     starting_date = models.DateField()
     ending_date = models.DateField()
