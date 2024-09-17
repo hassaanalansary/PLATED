@@ -142,13 +142,13 @@ def lesson_details_view(request, id):
     return render(request, 'subjects/lesson_details.html', context)
 
 
-@cache_page(60 * 60)
+
 @login_required(login_url='login')
 def tag_lesson_view(request, id):
     """ tag/untag a lesson when the bookmark button is clicked """
 
     if request.method == 'POST':
-        is_bookmarked = json.loads(request.body.decode('utf-8')).get('is_bookmarked')
+        is_bookmarked = request.POST.get('is_bookmarked')
         try:
             lesson = Lesson.objects.get(id=id)
             student = request.user.student
