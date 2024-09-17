@@ -32,3 +32,9 @@ class Semester(BaseModel):
 
     def __str__(self):
         return f"{self.title}"
+    @staticmethod
+    def get_current_semester()-> Semester:
+        return Semester.objects.filter(
+        starting_date__lte=timezone.now(),
+        ending_date__gte=timezone.now()
+        ).first()
